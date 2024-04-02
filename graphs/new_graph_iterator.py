@@ -14,6 +14,15 @@ amounts = {
     10: 11716571,
 }
 
+directed_amounts = {
+    2: 2,
+    3: 7,
+    4: 42,
+    5: 582,
+    6: 21480,
+    7: 2142288,
+}
+
 
 def next_int(file):
     word = ''
@@ -31,7 +40,7 @@ def next_int(file):
 def graph_iterator(n):
     for i in range(2, n+1):
         print(f"Onto {i} vertices.")
-        with open(f"../graphs/{i}.txt", mode="r") as f:
+        with open(f"../graphs/graph_files/{i}.txt", mode="r") as f:
             count = 0
 
             while True:
@@ -54,12 +63,25 @@ def graph_iterator(n):
 
 
 def directed_graph_iterator(n):
-    for g in graph_iterator(n):
-        for orientation in itertools.product([0, 1], repeat=len(g.edges)):
-            directed = nx.DiGraph()
-            for (u, v), o in zip(g.edges, orientation):
-                if o:
-                    directed.add_edge(u, v)
-                else:
-                    directed.add_edge(v, u)
-            yield directed
+    for i in range(3, n + 1):
+        print(f"Onto {i} vertices.")
+        with open(f"../graphs/graph_files/orient{i}.txt", mode="r") as f:
+            count = 0
+
+            while True:
+                eof_test = next_int(f)
+                if eof_test is None:
+                    break
+
+                n, m = eof_test, next_int(f)
+                g = nx.DiGraph()
+                g.add_nodes_from(range(n))
+
+                for _ in range(m):
+                    u, v = next_int(f), next_int(f)
+                    g.add_edge(u, v)
+                yield g
+
+                count += 1
+                if count * 100 // directed_amounts[i] > (count - 1) * 100 // directed_amounts[i]:
+                    print(f"{count * 100 // directed_amounts[i]}% done.")

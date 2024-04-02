@@ -28,23 +28,15 @@ def _sum(elements, negate=False):
 
 
 class Encoder:
-    def __init__(self, g, precolored=None, skip_requirements=None, required_leniency=None, force_2_cols=False):
+    def __init__(self, g, force_2_cols=False, list_all_solutions=False):
         assert nx.is_directed(g)
 
-        # if precolored is None:
-        #     precolored = {}
-        # if skip_requirements is None:
-        #     skip_requirements = []
-        # if required_leniency is None:
-        #     required_leniency = {}
         self.graph = g
-        # self.precolored = precolored
-        # self.skip_requirements = skip_requirements
-        # self.required_leniency = required_leniency
         self.variables = {}
         self.edges = {}
         self.model = cp_model.CpModel()
         self.force_2_cols = force_2_cols
+        self.list_all_solutions = list_all_solutions
 
     def solve(self):
         # prepare variables
@@ -93,11 +85,11 @@ class Encoder:
         # break symmetry, at least a little bit
         # self.model.Add(c[0][0] == 1)
 
-
-        # find all solutions
+        # find  solutions
         solver = cp_model.CpSolver()
         collector = SolutionCollector([(vertex, c[vertex]) for vertex in self.graph.nodes])
-        solver.parameters.enumerate_all_solutions = True
+        solver.parameters.enumerate_all_solutions = self.list_all_solutions
         _ = solver.Solve(self.model, collector)
 
         return collector.solutions
+
