@@ -62,8 +62,8 @@ def graph_iterator(n):
                     print(f"{count*100//amounts[i]}% done.")
 
 
-def directed_graph_iterator(n):
-    for i in range(3, n + 1):
+def directed_graph_iterator(_from, to):
+    for i in range(_from, to + 1):
         print(f"Onto {i} vertices.")
         with open(f"../graphs/graph_files/orient{i}.txt", mode="r") as f:
             count = 0

@@ -89,6 +89,7 @@ class Encoder:
         solver = cp_model.CpSolver()
         collector = SolutionCollector([(vertex, c[vertex]) for vertex in self.graph.nodes])
         solver.parameters.enumerate_all_solutions = self.list_all_solutions
+        solver.parameters.num_search_workers = 1
         _ = solver.Solve(self.model, collector)
 
         return collector.solutions
