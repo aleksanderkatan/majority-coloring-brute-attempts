@@ -11,3 +11,6 @@ All graph files are sourced from [here](http://users.cecs.anu.edu.au/~bdm/data/d
 ## Concrete results:
 
 - Every digraph of up to 7 vertices is majority 3-colorable.
+
+- For every digraph G of up to 6 vertices and every two of its vertices u and v, there exists a majority 3-coloring of G s.t. u and v are colored differently.
+

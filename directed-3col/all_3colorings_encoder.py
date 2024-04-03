@@ -28,7 +28,7 @@ def _sum(elements, negate=False):
 
 
 class Encoder:
-    def __init__(self, g, force_2_cols=False, list_all_solutions=False):
+    def __init__(self, g, force_2_cols=False, list_all_solutions=False, workers=1):
         assert nx.is_directed(g)
 
         self.graph = g
@@ -37,6 +37,7 @@ class Encoder:
         self.model = cp_model.CpModel()
         self.force_2_cols = force_2_cols
         self.list_all_solutions = list_all_solutions
+        self.workers = workers
 
     def solve(self):
         # prepare variables
@@ -89,7 +90,7 @@ class Encoder:
         solver = cp_model.CpSolver()
         collector = SolutionCollector([(vertex, c[vertex]) for vertex in self.graph.nodes])
         solver.parameters.enumerate_all_solutions = self.list_all_solutions
-        solver.parameters.num_search_workers = 1
+        solver.parameters.num_search_workers = self.workers
         _ = solver.Solve(self.model, collector)
 
         return collector.solutions

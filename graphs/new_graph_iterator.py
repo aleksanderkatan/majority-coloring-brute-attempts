@@ -1,6 +1,9 @@
+import random
+
 import networkx as nx
 import itertools
 
+from networkx import fast_gnp_random_graph
 
 amounts = {
     2: 1,
@@ -85,3 +88,30 @@ def directed_graph_iterator(_from, to):
                 count += 1
                 if count * 100 // directed_amounts[i] > (count - 1) * 100 // directed_amounts[i]:
                     print(f"{count * 100 // directed_amounts[i]}% done.")
+
+
+def random_digraphs_iterator(nodes, edge_probability=0.5, notification_interval=None):
+    count = 0
+    while True:
+        count += 1
+        if notification_interval is not None and count % notification_interval == 0:
+            print(f"Random graph {count}")
+        yield fast_gnp_random_graph(nodes, edge_probability, directed=True)
+
+    # edges_min = nodes
+    # edges_max = nodes ** 2
+    #
+    # while True:
+    #     g = nx.DiGraph()
+    #     g.add_nodes_from(range(nodes))
+    #     for _ in range(random.randint(edges_min, edges_max)):
+    #         u = random.randint(0, nodes - 1)
+    #         v = random.randint(0, nodes - 1)
+    #         if u == v:
+    #             continue
+    #         if g.has_edge(u, v) or g.has_edge(v, u):
+    #             continue
+    #         g.add_edge(u, v)
+    #
+    #     yield g
+
