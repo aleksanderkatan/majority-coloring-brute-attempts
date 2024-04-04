@@ -17,13 +17,22 @@ amounts = {
     10: 11716571,
 }
 
-directed_amounts = {
+directed_oriented_amounts = {
     2: 2,
     3: 7,
     4: 42,
     5: 582,
     6: 21480,
     7: 2142288,
+}
+
+directed_amounts = {
+    1: 1,
+    2: 3,
+    3: 16,
+    4: 218,
+    5: 9608,
+    6: 1540944,
 }
 
 
@@ -65,10 +74,13 @@ def graph_iterator(n):
                     print(f"{count*100//amounts[i]}% done.")
 
 
-def directed_graph_iterator(_from, to):
+def directed_graph_iterator(_from, to, verbose=False, oriented=True):
+    path = "orient" if oriented else "dig"
+    amounts = directed_oriented_amounts if oriented else directed_amounts
+
     for i in range(_from, to + 1):
         print(f"Onto {i} vertices.")
-        with open(f"../graphs/graph_files/orient{i}.txt", mode="r") as f:
+        with open(f"../graphs/graph_files/{path}{i}.txt", mode="r") as f:
             count = 0
 
             while True:
@@ -86,8 +98,8 @@ def directed_graph_iterator(_from, to):
                 yield g
 
                 count += 1
-                if count * 100 // directed_amounts[i] > (count - 1) * 100 // directed_amounts[i]:
-                    print(f"{count * 100 // directed_amounts[i]}% done.")
+                if verbose and count * 100 // amounts[i] > (count - 1) * 100 // amounts[i]:
+                    print(f"{count * 100 // amounts[i]}% done.")
 
 
 def random_digraphs_iterator(nodes, edge_probability=0.5, notification_interval=None):
