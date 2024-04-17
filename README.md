@@ -22,8 +22,13 @@ All graph files are sourced from [here](http://users.cecs.anu.edu.au/~bdm/data/d
 
 - Minimum colorings by vertices for strongly connected: {3: 6, 4: 18, 5: 24, 6: 48}
 
-- Greedy algorithm that chooses an unsatisfied vertex and increases its color by one fails for some graphs of 6 vertices.
+The following greedy attempts are not majority coloring algorithms:
 
+- Find an unsatisfied vertex and change its color (C4).
+
+- Find an unsatisfied vertex and change the color of its one same-colored out neighbor.
+
+- Find an unsatisfied vertex and change the color of all its out neighbors.
 
 ### Digraphs with allowed 2-cycles:
 

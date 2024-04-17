@@ -74,7 +74,7 @@ def graph_iterator(n):
                     print(f"{count*100//amounts[i]}% done.")
 
 
-def directed_graph_iterator(_from, to, verbose=False, oriented=True):
+def directed_graph_iterator(_from, to, verbose=True, oriented=True):
     path = "orient" if oriented else "dig"
     amounts = directed_oriented_amounts if oriented else directed_amounts
 

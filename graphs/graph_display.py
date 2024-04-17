@@ -28,6 +28,6 @@ def display_graph(graph: nx.Graph, labels: {int: str} = None, vertex_colors: dic
 
     plt.title("Graph Visualization")
     plt.show()
-    for u, v in graph.edges:
-        print(f"({u}, {v}), ", end="")
-    print()
+    # for u, v in graph.edges:
+    #     print(f"({u}, {v}), ", end="")
+    # print()
