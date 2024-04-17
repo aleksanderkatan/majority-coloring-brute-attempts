@@ -22,13 +22,15 @@ All graph files are sourced from [here](http://users.cecs.anu.edu.au/~bdm/data/d
 
 - Minimum colorings by vertices for strongly connected: {3: 6, 4: 18, 5: 24, 6: 48}
 
-## Digraphs with allowed 2-cycles:
+- Greedy algorithm that chooses an unsatisfied vertex and increases its color by one fails for some graphs of 6 vertices.
+
+
+### Digraphs with allowed 2-cycles:
 
 - Every digraph of up to 5 vertices is majority 3-colorable
 
 - Minimum colorings by vertices: {3: 6, 4: 12, 5: 24} (same as without 2-cycles)
 
 - Minimum colorings by vertices for strongly connected: {3: 6, 4: 18, 5: 24} (same as without 2-cycles)
-
 
 
