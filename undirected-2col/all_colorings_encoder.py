@@ -23,17 +23,14 @@ def _sum(elements, negate=False):
 
 
 class Encoder:
-    def __init__(self, g, precolored=None, skip_requirements=None, required_leniency=None):
+    def __init__(self, g, precolored=None, skip_requirements=None):
         if precolored is None:
             precolored = {}
         if skip_requirements is None:
             skip_requirements = []
-        if required_leniency is None:
-            required_leniency = {}
         self.graph = g
         self.precolored = precolored
         self.skip_requirements = skip_requirements
-        self.required_leniency = required_leniency
         self.variables = {}
         self.model = cp_model.CpModel()
         for vertex in g.nodes:
@@ -48,7 +45,7 @@ class Encoder:
             if vertex in self.skip_requirements:
                 continue
             neighbourhood = [self.variables[n] for n in self.graph.neighbors(vertex)]
-            requirement = (len(neighbourhood) + (1 if vertex not in self.required_leniency else self.required_leniency[vertex])) // 2
+            requirement = (len(neighbourhood) + 1) // 2
             constraint_if_0 = _sum(neighbourhood) >= requirement * (1-self.variables[vertex])
             constraint_if_1 = _sum(neighbourhood, negate=True) >= requirement * self.variables[vertex]
             self.model.Add(constraint_if_0)
