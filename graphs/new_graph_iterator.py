@@ -108,7 +108,7 @@ def random_digraphs_iterator(nodes, edge_probability=0.5, notification_interval=
         count += 1
         if notification_interval is not None and count % notification_interval == 0:
             print(f"Random graph {count}")
-        yield fast_gnp_random_graph(nodes, edge_probability, directed=True)
+        yield fast_gnp_random_graph(nodes, edge_probability, seed=42+count, directed=True)
 
     # edges_min = nodes
     # edges_max = nodes ** 2

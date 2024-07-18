@@ -23,7 +23,7 @@ def _sum(elements, negate=False):
 
 
 class Encoder:
-    def __init__(self, g, precolored=None, skip_requirements=None):
+    def __init__(self, g, precolored=None, skip_requirements=None, all_solutions=True):
         if precolored is None:
             precolored = {}
         if skip_requirements is None:
@@ -31,6 +31,7 @@ class Encoder:
         self.graph = g
         self.precolored = precolored
         self.skip_requirements = skip_requirements
+        self.all_solutions = all_solutions
         self.variables = {}
         self.model = cp_model.CpModel()
         for vertex in g.nodes:
@@ -54,7 +55,7 @@ class Encoder:
 
         solver = cp_model.CpSolver()
         collector = SolutionCollector([var for var_name, var in self.variables.items()])
-        solver.parameters.enumerate_all_solutions = True
+        solver.parameters.enumerate_all_solutions = self.all_solutions
         _ = solver.Solve(self.model, collector)
 
         return collector.solutions
