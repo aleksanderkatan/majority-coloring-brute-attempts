@@ -7,7 +7,7 @@ from color_fpt import graph_with_coloring, calculate_min_ones
 
 if __name__ == "__main__":
     # for graph in directed_graph_iterator(3, 7, verbose=True):
-    for graph in random_digraphs_iterator(20, 0.2, notification_interval=1):
+    for graph in random_digraphs_iterator(15, 0.2, notification_interval=1):
         coloring = find_min_ones_coloring(graph)
         if coloring is None:
             # the graph is not majority 2-colorable.
