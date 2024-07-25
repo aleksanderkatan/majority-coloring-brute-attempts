@@ -1,6 +1,6 @@
 from all_colorings_encoder import Encoder
 from graphs.graph_display import display_graph
-from graphs.graph_iterator import graph_iterator
+from graphs.new_graph_iterator import graph_iterator
 
 
 # sprawdzone NOT do 7 włącznie
@@ -32,6 +32,6 @@ def check_graph(g):
 
 
 if __name__ == "__main__":
-    for g in graph_iterator(0):
+    for g in graph_iterator(9):
         if check_graph(g):
             display_graph(g, {i: str(i) for i in g.nodes}, {i: 0 for i in g.nodes})

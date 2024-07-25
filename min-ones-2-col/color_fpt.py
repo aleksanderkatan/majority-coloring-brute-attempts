@@ -1,64 +1,12 @@
 import networkx as nx
+
+from graphs.digraphwithcoloring import DigraphWithColoring
 from graphs.graph_display import display_graph
 from itertools import chain
 
 
-# unoptimised implementation
-class graph_with_coloring:
-    def __init__(self, graph: nx.DiGraph, coloring=None):
-        self.graph = graph
-        if coloring is None:
-            coloring = {v:0 for v in graph.nodes}
-        self.coloring = coloring
-
-    def differently_colored_neighbors(self, v):
-        result = 0
-        for n in self.graph.successors(v):
-            if self.coloring[n] != self.coloring[v]:
-                result += 1
-        return result
-
-    def same_colored_neighbors(self, v):
-        return self.graph.out_degree(v) - self.differently_colored_neighbors(v)
-
-    def is_satisfied(self, v):
-        return 2 * self.differently_colored_neighbors(v) >= self.graph.out_degree(v)
-
-    def try_find_unsatisfied_vertex(self, color):
-        for v in self.graph.nodes:
-            if self.coloring[v] == color:
-                if not self.is_satisfied(v):
-                    return v
-        return None
-
-    def has_unsatisfied_one(self):
-        for v in self.graph.nodes:
-            if self.coloring[v] == 1:
-                if not self.is_satisfied(v):
-                    return True
-        return False
-
-    def find_forced_one(self, k):
-        for v in self.graph.nodes:
-            if self.coloring[v] == 0:
-                zeroes = self.same_colored_neighbors(v)
-                ones = self.differently_colored_neighbors(v)
-                if zeroes - k > ones + k:
-                    return v
-        return None
-
-    def is_correct_coloring(self):
-        for v in self.graph.nodes:
-            if not self.is_satisfied(v):
-                return False
-        return True
-
-    def set_color(self, v: int, c: int):
-        self.coloring[v] = c
-
-
 # the argument `original_k` is only here for debug purposes
-def recursive_try_fill_min_ones(g: graph_with_coloring, original_k: int, current_k: int):
+def recursive_try_fill_min_ones(g: DigraphWithColoring, original_k: int, current_k: int):
     # print(k)
     # display_graph(g.graph, vertex_colors=g.coloring)
     if g.is_correct_coloring():
@@ -93,13 +41,9 @@ def recursive_try_fill_min_ones(g: graph_with_coloring, original_k: int, current
     return False
 
 
-
 def calculate_min_ones(g: nx.DiGraph):
     for i in range(len(g.nodes)):
-        gwc = graph_with_coloring(g)
+        gwc = DigraphWithColoring(g)
         if recursive_try_fill_min_ones(gwc, i, i):
             return i
     return None
-
-
-
