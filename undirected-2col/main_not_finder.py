@@ -1,5 +1,5 @@
 from all_colorings_encoder import Encoder
-from graphs.graph_display import display_graph
+from graphs.display_graph import display_graph
 from graphs.new_graph_iterator import graph_iterator
 
 

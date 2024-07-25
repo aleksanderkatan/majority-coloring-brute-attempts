@@ -3,7 +3,7 @@ from graphs.new_graph_iterator import directed_graph_iterator
 from color_greedily_but_choose_best_color import color_greedily
 # from color_greedily_bump_all_neighbors import color_greedily
 # from color_greedily_bump_one_wrong_neighbor import color_greedily
-from graphs.graph_display import display_graph
+from graphs.display_graph import display_graph
 import networkx as nx
 
 

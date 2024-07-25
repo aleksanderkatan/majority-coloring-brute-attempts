@@ -1,7 +1,7 @@
 import networkx as nx
 
-from graphs.digraphwithcoloring import DigraphWithColoring
-from graphs.graph_display import display_graph
+from graphs.digraph_with_coloring import DigraphWithColoring
+from graphs.display_graph import display_graph
 from itertools import chain
 
 

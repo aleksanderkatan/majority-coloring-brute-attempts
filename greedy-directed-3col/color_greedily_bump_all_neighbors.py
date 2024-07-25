@@ -1,6 +1,6 @@
 import networkx as nx
 from colored_graph import ColoredGraph
-from graphs.graph_display import display_graph
+from graphs.display_graph import display_graph
 
 
 def color_greedily(graph: nx.DiGraph, display=False):

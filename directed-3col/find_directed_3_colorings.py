@@ -27,13 +27,12 @@ def _sum(elements, negate=False):
     return result
 
 
-def find_directed_3_colorings(g, list_all_solutions, force_2_cols=False, workers=1):
+def find_directed_3_colorings(g, list_all_solutions, force_2_cols=False):
     assert nx.is_directed(g)
 
     model = cp_model.CpModel()
     force_2_cols = force_2_cols
     list_all_solutions = list_all_solutions
-    workers = workers
 
     # prepare variables
 
@@ -83,7 +82,6 @@ def find_directed_3_colorings(g, list_all_solutions, force_2_cols=False, workers
     solver = cp_model.CpSolver()
     collector = SolutionCollector([(vertex, c[vertex]) for vertex in g.nodes])
     solver.parameters.enumerate_all_solutions = list_all_solutions
-    solver.parameters.num_search_workers = workers
     _ = solver.Solve(model, collector)
 
     return collector.solutions

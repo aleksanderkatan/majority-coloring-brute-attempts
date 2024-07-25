@@ -1,5 +1,5 @@
 import networkx as nx
-from graphs.graph_display import display_graph
+from graphs.display_graph import display_graph
 from graphs.new_graph_iterator import directed_graph_iterator, random_digraphs_iterator
 from min_ones_ILP_encoder import find_min_ones_coloring
 from color_fpt import DigraphWithColoring, calculate_min_ones
