@@ -8,12 +8,8 @@ import networkx as nx
 
 
 if __name__ == "__main__":
-    c4 = nx.from_edgelist([(0, 1), (1, 2), (2, 3), (3, 0)], create_using=nx.DiGraph)
-    steps, coloring = color_greedily(c4, display=False)
-    print(coloring)
-    for graph in directed_graph_iterator(4, 4):
-        steps, coloring = color_greedily(graph, display=False)
-        display_graph(graph, vertex_colors={i: coloring[i] for i in graph.nodes})
+    for graph in directed_graph_iterator(3, 6):
+        steps, coloring = color_greedily(graph, display=True)
         if coloring is None:
             display_graph(graph)
 

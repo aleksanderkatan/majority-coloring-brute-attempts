@@ -1,22 +1,23 @@
 import networkx as nx
-from colored_graph import ColoredGraph
 from graphs.display_graph import display_graph
+from graphs.digraph_with_coloring import DigraphWithColoring
+from bump_color import bump_color
 
 
 def color_greedily(graph: nx.DiGraph, display=False):
-    colored = ColoredGraph(graph)
+    colored = DigraphWithColoring(graph)
     for step in range(3 ** len(graph.nodes)):
         if display:
-            display_graph(graph, vertex_colors={i: colored.colors[i] for i in graph.nodes})
-        unsatisfied_node = colored.find_unsatisfied()
+            display_graph(graph, vertex_colors=colored.coloring)
+        unsatisfied_node = colored.try_find_unsatisfied_vertex()
         if unsatisfied_node is None:
-            return step, colored.colors
+            return step, colored.coloring
         for neigh in nx.neighbors(graph, unsatisfied_node):
-            if colored.colors[neigh] == colored.colors[unsatisfied_node]:
-                colored.bump_color(neigh)
+            if colored.get_color(neigh) == colored.get_color(unsatisfied_node):
+                bump_color(colored, neigh)
                 break
     if display:
-        display_graph(graph, vertex_colors={i: colored.colors[i] for i in graph.nodes})
+        display_graph(graph, vertex_colors=colored.coloring)
 
     return 3 ** len(graph.nodes), None
 

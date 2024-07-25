@@ -22,11 +22,12 @@ class DigraphWithColoring:
     def is_satisfied(self, v):
         return 2 * self.differently_colored_neighbors(v) >= self.graph.out_degree(v)
 
-    def try_find_unsatisfied_vertex(self, color):
+    def try_find_unsatisfied_vertex(self, color=None):
         for v in self.graph.nodes:
-            if self.coloring[v] == color:
-                if not self.is_satisfied(v):
-                    return v
+            if color is not None and self.coloring[v] != color:
+                continue
+            if not self.is_satisfied(v):
+                return v
         return None
 
     def is_correct_coloring(self):
@@ -35,5 +36,15 @@ class DigraphWithColoring:
                 return False
         return True
 
+    def get_different_fraction(self, node: int):
+        if self.graph.out_degree(node) == 0:
+            return 1.0
+        colored_same = self.same_colored_neighbors(node)
+        colored_differently = self.differently_colored_neighbors(node)
+        return colored_differently / (colored_differently + colored_same)
+
     def set_color(self, v: int, c: int):
         self.coloring[v] = c
+
+    def get_color(self, v: int):
+        return self.coloring[v]
