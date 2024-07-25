@@ -1,6 +1,6 @@
 from find_directed_3_colorings import find_directed_3_colorings
 from graphs.display_graph import display_graph
-from graphs.new_graph_iterator import directed_graph_iterator
+from graphs.graph_iterator import directed_graph_iterator
 from graphs.digraph_with_coloring import DigraphWithColoring
 
 

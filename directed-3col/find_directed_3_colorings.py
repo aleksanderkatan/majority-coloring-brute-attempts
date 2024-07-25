@@ -31,9 +31,6 @@ def find_directed_3_colorings(g, list_all_solutions, force_2_cols=False):
     assert nx.is_directed(g)
 
     model = cp_model.CpModel()
-    force_2_cols = force_2_cols
-    list_all_solutions = list_all_solutions
-
     # prepare variables
 
     # c[v][i] = 1 iff v is colored i
@@ -70,7 +67,7 @@ def find_directed_3_colorings(g, list_all_solutions, force_2_cols=False):
                 neighbor_sum = neighbor_sum + c[neighbor][i]
             model.Add(neighbor_sum == s[vertex][i])
 
-    # # at most half is of the same color
+    # at most half is of the same color
     for vertex in g.nodes:
         out_total = g.out_degree(vertex)
         out_same_color_limit = out_total//2

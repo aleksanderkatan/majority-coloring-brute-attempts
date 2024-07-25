@@ -1,4 +1,4 @@
-from graphs.new_graph_iterator import directed_graph_iterator
+from graphs.graph_iterator import directed_graph_iterator
 # from color_greedily import color_greedily
 from color_greedily_but_choose_best_color import color_greedily
 # from color_greedily_bump_all_neighbors import color_greedily

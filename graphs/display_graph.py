@@ -2,6 +2,7 @@ import networkx as nx
 import matplotlib.pyplot as plt
 
 
+# GPT was used to generate this
 def display_graph(graph: nx.Graph, labels: {int: str} = None, vertex_colors: dict[int, bool] = None):
     if labels is None:
         labels = {i: str(i) for i in graph.nodes}

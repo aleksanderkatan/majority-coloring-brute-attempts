@@ -1,6 +1,6 @@
-from all_colorings_encoder import Encoder
+from find_undirected_2_colorings import find_undirected_2_colorings
 from graphs.display_graph import display_graph
-from graphs.new_graph_iterator import graph_iterator
+from graphs.graph_iterator import graph_iterator
 
 
 # sprawdzone NOT do 7 włącznie
@@ -18,10 +18,10 @@ def check_graph(g):
 
     for v_color in [0, 1]:
         for not_v_extra_color in [0, 1]:
-            encoder = Encoder(g,
-                              precolored={v: v_color, not_v_extra: not_v_extra_color},
-                              skip_requirements=[v, not_v_extra])
-            all_solutions = encoder.solve()
+            all_solutions = find_undirected_2_colorings(g, list_all_solutions=True,
+                                                        precolored={v: v_color, not_v_extra: not_v_extra_color},
+                                                        skip_requirements=[v, not_v_extra]
+                                                        )
             if len(all_solutions) == 0:
                 raise RuntimeError()
 
