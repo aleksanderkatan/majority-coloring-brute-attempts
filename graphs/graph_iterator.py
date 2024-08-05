@@ -1,3 +1,5 @@
+import itertools
+
 import networkx as nx
 
 from networkx import fast_gnp_random_graph
@@ -108,3 +110,12 @@ def random_digraphs_iterator(nodes, edge_probability=0.5, notification_interval=
         yield fast_gnp_random_graph(nodes, edge_probability, seed=42+count, directed=True)
 
 
+def all_permutations(graph: nx.Graph):
+    for perm in itertools.permutations(graph.nodes):
+        if graph.is_directed():
+            new_graph = nx.DiGraph()
+        else:
+            new_graph = nx.Graph()
+        for u, v in graph.edges:
+            new_graph.add_edge(perm[u], perm[v])
+        yield new_graph

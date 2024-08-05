@@ -2,10 +2,15 @@ import networkx as nx
 from ortools.sat.python import cp_model
 
 
+class TooManySolutionsException(Exception):
+    pass
+
+
 class SolutionCollector(cp_model.CpSolverSolutionCallback):
-    def __init__(self, variables):
+    def __init__(self, variables, solution_limit=None):
         cp_model.CpSolverSolutionCallback.__init__(self)
         self.variables = variables
+        self.solution_limit = solution_limit
         self.solutions = []
 
     def on_solution_callback(self):
@@ -18,6 +23,8 @@ class SolutionCollector(cp_model.CpSolverSolutionCallback):
             else:
                 result[vertex] = 2
         self.solutions.append(result)
+        if self.solution_limit is not None and len(self.solutions) > self.solution_limit:
+            raise TooManySolutionsException()
 
 
 def _sum(elements, negate=False):
@@ -27,7 +34,7 @@ def _sum(elements, negate=False):
     return result
 
 
-def find_directed_3_colorings(g, list_all_solutions, force_2_cols=False):
+def find_directed_3_colorings(g, list_all_solutions, force_2_cols=False, solution_limit=None):
     assert nx.is_directed(g)
 
     model = cp_model.CpModel()
@@ -77,7 +84,7 @@ def find_directed_3_colorings(g, list_all_solutions, force_2_cols=False):
 
     # find  solutions
     solver = cp_model.CpSolver()
-    collector = SolutionCollector([(vertex, c[vertex]) for vertex in g.nodes])
+    collector = SolutionCollector([(vertex, c[vertex]) for vertex in g.nodes], solution_limit=solution_limit)
     solver.parameters.enumerate_all_solutions = list_all_solutions
     _ = solver.Solve(model, collector)
 

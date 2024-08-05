@@ -30,6 +30,13 @@ class DigraphWithColoring:
                 return v
         return None
 
+    def find_all_unsatisfied_vertices(self):
+        result = set()
+        for v in self.graph.nodes:
+            if not self.is_satisfied(v):
+                result.add(v)
+        return result
+
     def is_correct_coloring(self):
         for v in self.graph.nodes:
             if not self.is_satisfied(v):
