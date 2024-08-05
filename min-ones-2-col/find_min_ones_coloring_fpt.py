@@ -23,9 +23,11 @@ def recursive_try_fill_min_ones(g: DigraphWithColoring, original_k: int, current
             if zeroes - current_k > ones + current_k:
                 g.set_color(v, 1)
                 result = recursive_try_fill_min_ones(g, original_k, current_k - 1)
+                if result:
+                    return result
                 # we pass the coloring by reference, we must retain its state
                 g.set_color(v, 0)
-                return result
+                return False
     v = g.try_find_unsatisfied_vertex(color=0)
     # vvv asserts vvv
     assert v is not None
@@ -42,23 +44,23 @@ def recursive_try_fill_min_ones(g: DigraphWithColoring, original_k: int, current
     return False
 
 
-def calculate_min_ones_fpt(graph: nx.DiGraph):
+def find_min_ones_coloring_fpt(graph: nx.DiGraph):
     """
-    Finds a minimal k such that (`graph`, k) is a yes-instance of Min-ones Majority 2-Coloring
-    in FPT time parameterized by k.
+    Finds the minimal k such that (`graph`, k) is a yes-instance of Min-ones Majority 2-Coloring
+    in FPT time parameterized by k, and returns a coloring using k ones.
 
     Args:
         graph (networkx.DiGraph): The graph to color.
 
     Returns:
-        int: A minimal number k such that there exists a majority 2-coloring of `graph` that uses k ones.
+        dict[int, int]: A majority 2-coloring of `graph` that minimizes ones.
 
     Raises:
         NotMajority2ColorableError: If the `graph` argument is not a majority 2-colorable graph.
     """
 
-    for i in range(len(graph.nodes)):
+    for i in range(len(graph.nodes)+1):
         gwc = DigraphWithColoring(graph)
         if recursive_try_fill_min_ones(gwc, i, i):
-            return i
+            return gwc.coloring
     raise NotMajority2ColorableError()

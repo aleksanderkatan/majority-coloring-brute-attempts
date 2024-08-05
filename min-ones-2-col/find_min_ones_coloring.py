@@ -13,7 +13,7 @@ def _sum(elements, negate=False):
     return result
 
 
-def find_min_ones_coloring_cp(graph: nx.DiGraph):
+def find_min_ones_coloring(graph: nx.DiGraph):
     """
     Finds a Min-ones Majority 2-Coloring of the given graph that minimizes the number of color 1.
 
