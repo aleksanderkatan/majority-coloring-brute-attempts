@@ -23,6 +23,23 @@ def _sum(elements, negate=False):
 
 
 def find_undirected_2_colorings(graph, list_all_solutions, precolored=None, skip_requirements=None):
+    """
+    Finds and lists all majority 2-colorings of the given undirected graph,
+    while respecting given constraints.
+
+    Args:
+        graph (networkx.Graph): The graph to color.
+        list_all_solutions (bool): A flag that when set to true limits the result to at most one coloring.
+        precolored (dict[int, int]): A dictionary of pairs (vertex, color), the result colorings are limited only to ones matching those pairs.
+        skip_requirements (set[int]): A set of vertices that are omitted from the cardinality constraints, in other words the set of lenient vertices.
+
+    Returns:
+        list[dict[int, int]]: A list of all majority 2-colorings satisfying the constraints given in arguments.
+
+    Notes:
+        The function assumes that the input graph is an undirected graph.
+    """
+
     assert not nx.is_directed(graph)
     if precolored is None:
         precolored = {}

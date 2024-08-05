@@ -3,6 +3,7 @@ import networkx as nx
 from graphs.digraph_with_coloring import DigraphWithColoring
 from graphs.display_graph import display_graph
 from itertools import chain
+from find_min_ones_coloring import NotMajority2ColorableError
 
 
 # the argument `original_k` is only here for debug purposes
@@ -41,9 +42,23 @@ def recursive_try_fill_min_ones(g: DigraphWithColoring, original_k: int, current
     return False
 
 
-def calculate_min_ones(g: nx.DiGraph):
-    for i in range(len(g.nodes)):
-        gwc = DigraphWithColoring(g)
+def calculate_min_ones_fpt(graph: nx.DiGraph):
+    """
+    Finds a minimal k such that (`graph`, k) is a yes-instance of Min-ones Majority 2-Coloring
+    in FPT time parameterized by k.
+
+    Args:
+        graph (networkx.DiGraph): The graph to color.
+
+    Returns:
+        int: A minimal number k such that there exists a majority 2-coloring of `graph` that uses k ones.
+
+    Raises:
+        NotMajority2ColorableError: If the `graph` argument is not a majority 2-colorable graph.
+    """
+
+    for i in range(len(graph.nodes)):
+        gwc = DigraphWithColoring(graph)
         if recursive_try_fill_min_ones(gwc, i, i):
             return i
-    return None
+    raise NotMajority2ColorableError()

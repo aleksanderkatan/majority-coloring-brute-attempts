@@ -2,6 +2,10 @@ from ortools.linear_solver import pywraplp
 import networkx as nx
 
 
+class NotMajority2ColorableError(Exception):
+    pass
+
+
 def _sum(elements, negate=False):
     result = 0
     for elem in elements:
@@ -9,7 +13,20 @@ def _sum(elements, negate=False):
     return result
 
 
-def find_min_ones_coloring(graph: nx.DiGraph):
+def find_min_ones_coloring_cp(graph: nx.DiGraph):
+    """
+    Finds a Min-ones Majority 2-Coloring of the given graph that minimizes the number of color 1.
+
+    Args:
+        graph (networkx.DiGraph): The graph to color.
+
+    Returns:
+        dict[int, int]: A majority 2-coloring minimizing the number of ones.
+
+    Raises:
+        NotMajority2ColorableError: If the `graph` argument is not a majority 2-colorable graph.
+    """
+
     solver = pywraplp.Solver.CreateSolver("SAT")
     variables = {}
 
@@ -34,5 +51,6 @@ def find_min_ones_coloring(graph: nx.DiGraph):
         for vertex in graph.nodes:
             solution[vertex] = int(variables[vertex].solution_value())
         return solution
+    raise NotMajority2ColorableError
 
 
