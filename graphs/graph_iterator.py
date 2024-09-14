@@ -101,12 +101,14 @@ def directed_graph_iterator(_from, to, verbose=True, oriented=True):
                     print(f"{count * 100 // amounts[i]}% done.")
 
 
-def random_digraphs_iterator(nodes, edge_probability=0.5, notification_interval=None):
+def random_digraphs_iterator(nodes, edge_probability=0.5, notification_interval=None, limit=0):
     count = 0
     while True:
+        if count >= limit:
+            return
         count += 1
         if notification_interval is not None and count % notification_interval == 0:
-            print(f"Random graph {count}")
+            print(f"Random graph on {nodes} vertices, with edge probability {edge_probability}, number {count}.")
         yield fast_gnp_random_graph(nodes, edge_probability, seed=42+count, directed=True)
 
 
